@@ -8,11 +8,11 @@ gsap.registerPlugin(ScrollTrigger)
 const BG_IMAGE = '/images/philosophy/philosophy-bg.jpg'
 const BG_FALLBACK = 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=2000&q=80'
 
-const OLD_WAY_LABEL = 'The Old Way'
-const OLD_WAY_TEXT = 'Hire more coordinators. Add more spreadsheets. Hope nothing falls through the cracks.'
+const OLD_WAY_LABEL = 'The Consultant You\u2019ve Had Before'
+const OLD_WAY_TEXT = 'Fly in for a week. Interview your leadership. Deliver a binder full of recommendations. Fly home. Send an invoice. Never learn how your maintenance team actually works.'
 
-const NEW_WAY_LABEL = 'The New Way'
-const NEW_WAY_TEXT = 'Map your workflows. Deploy AI. Watch your team focus on what actually moves the needle.'
+const NEW_WAY_LABEL = 'How We Actually Work'
+const NEW_WAY_TEXT = 'Embed with your teams. Learn every workflow firsthand. Co-create solutions your people helped design. Stay until adoption is real — not just documented.'
 
 export default function Philosophy() {
   const sectionRef = useRef(null)
@@ -34,7 +34,7 @@ export default function Philosophy() {
         },
       })
 
-      // Old way reveal
+      // Old way reveal — enters muted, then fades/decays as user scrolls further
       const oldWords = oldRef.current.querySelectorAll('.word')
       gsap.from(oldWords, {
         opacity: 0,
@@ -48,17 +48,31 @@ export default function Philosophy() {
         },
       })
 
-      // New way reveal
+      // Old way decay — fades down and blurs as user continues scrolling
+      gsap.to(oldRef.current, {
+        opacity: 0.3,
+        filter: 'blur(2px)',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'center 60%',
+          end: 'bottom 40%',
+          scrub: true,
+        },
+      })
+
+      // New way reveal — arrives bold and energetic with faster stagger
       const newWords = newRef.current.querySelectorAll('.word')
       gsap.from(newWords, {
         opacity: 0,
-        y: 20,
-        stagger: 0.05,
-        duration: 0.6,
-        ease: 'power2.out',
+        y: 24,
+        scale: 0.95,
+        stagger: 0.04,
+        duration: 0.7,
+        ease: 'power3.out',
         scrollTrigger: {
           trigger: newRef.current,
-          start: 'top 80%',
+          start: 'top 78%',
         },
       })
     }, sectionRef)
@@ -74,13 +88,16 @@ export default function Philosophy() {
     ))
 
   return (
-    <section ref={sectionRef} className="relative py-40 overflow-hidden bg-charcoal">
+    <section ref={sectionRef} className="relative py-24 md:py-32 overflow-hidden bg-charcoal">
       {/* Parallax background */}
       <div className="absolute inset-0 overflow-hidden">
         <div ref={bgRef} className="absolute inset-[-20%]">
           <img
             src={BG_IMAGE}
             alt=""
+            width={2000}
+            height={1333}
+            loading="lazy"
             className="w-full h-full object-cover opacity-10"
             onError={(e) => { e.target.src = BG_FALLBACK }}
           />
@@ -92,10 +109,10 @@ export default function Philosophy() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-start">
           {/* Old way */}
           <div ref={oldRef}>
-            <p className="text-cream/30 font-mono text-xs uppercase tracking-widest mb-6">
+            <p className="text-cream/50 font-mono text-xs uppercase tracking-widest mb-6">
               {OLD_WAY_LABEL}
             </p>
-            <p className="text-cream/40 font-sans text-3xl md:text-4xl font-light leading-tight line-through decoration-cream/20">
+            <p className="text-cream/50 font-sans text-3xl md:text-4xl leading-tight line-through decoration-cream/20">
               {splitWords(OLD_WAY_TEXT)}
             </p>
           </div>

@@ -60,7 +60,7 @@ export default function TelemetryTypewriter() {
           <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
           <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50" />
           <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
-          <span className="ml-2 text-cream/20 text-xs font-mono">telemetry.log</span>
+          <span className="ml-2 text-cream/40 text-xs font-mono">telemetry.log</span>
         </div>
         <div className="p-4 min-h-[80px]">
           <div className="flex items-start gap-2">

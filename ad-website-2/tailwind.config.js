@@ -8,10 +8,10 @@ export default {
         clay: '#DCAE1D',
         cream: '#D1E3DB',
         charcoal: '#142F40',
+        sage: '#859C95',
       },
       fontFamily: {
         sans: ['"Space Grotesk"', 'Inter', 'sans-serif'],
-        serif: ['"Space Grotesk"', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'Courier New', 'monospace'],
       },
       borderRadius: {

@@ -78,7 +78,7 @@ export default function WorkflowStatus() {
                 </span>
               </div>
               <div className="flex items-center gap-2 shrink-0">
-                <span className={`text-xs hidden sm:inline ${wf.status === 'manual' ? 'text-cream/25' : 'text-cream/35'}`}>
+                <span className={`text-xs hidden sm:inline ${wf.status === 'manual' ? 'text-cream/40' : 'text-cream/50'}`}>
                   {wf.detail}
                 </span>
                 <span className={`text-xs px-1.5 py-0.5 rounded border font-mono ${s.labelClass}`}>
@@ -93,7 +93,7 @@ export default function WorkflowStatus() {
       {/* Progress bar */}
       <div className="mt-3">
         <div className="flex items-center justify-between mb-1.5">
-          <span className="text-cream/30 text-xs">{AUTOMATED_COUNT} of {TOTAL} workflows automated</span>
+          <span className="text-cream/50 text-xs">{AUTOMATED_COUNT} of {TOTAL} workflows automated</span>
           <span className="text-clay text-xs font-bold">{PCT}%</span>
         </div>
         <div className="h-1.5 bg-cream/8 rounded-full overflow-hidden">

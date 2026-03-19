@@ -1,12 +1,11 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { motion, useMotionValue, useSpring, useTransform } from 'motion/react'
 import { MapPin } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Local image paths — drop files into public/images/communities/
-// Components fall back to Unsplash if local files are missing
 const COMMUNITIES = [
   {
     image: '/images/communities/community-01.jpg',
@@ -37,18 +36,76 @@ const COMMUNITIES = [
   },
 ]
 
+/* ── Tilt card using Motion useMotionValue + useTransform ──
+   Per taste-skill: spring physics, no useState, no raw DOM handlers */
+const tiltSpring = { stiffness: 100, damping: 20 }
+
+function TiltCard({ children, className }) {
+  const ref = useRef(null)
+  const mouseX = useMotionValue(0.5)
+  const mouseY = useMotionValue(0.5)
+
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [4, -4]), tiltSpring)
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-4, 4]), tiltSpring)
+
+  const handleMouseMove = (e) => {
+    const rect = ref.current.getBoundingClientRect()
+    mouseX.set((e.clientX - rect.left) / rect.width)
+    mouseY.set((e.clientY - rect.top) / rect.height)
+  }
+
+  const handleMouseLeave = () => {
+    mouseX.set(0.5)
+    mouseY.set(0.5)
+  }
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{
+        rotateX,
+        rotateY,
+        transformPerspective: 800,
+        transformStyle: 'preserve-3d',
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
 export default function CommunityGallery() {
   const sectionRef = useRef(null)
   const cardsRef = useRef([])
+  const imgRefs = useRef([])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Card entrance animation (GSAP — scroll-triggered)
       cardsRef.current.forEach((card, i) => {
         if (!card) return
         gsap.from(card, {
           opacity: 0, y: 40, duration: 0.7, ease: 'power2.out',
           scrollTrigger: { trigger: card, start: 'top 88%' },
           delay: i * 0.1,
+        })
+      })
+
+      // Background image parallax (GSAP — scroll-driven, on image elements)
+      imgRefs.current.forEach((img) => {
+        if (!img) return
+        gsap.to(img, {
+          yPercent: 12,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: img.closest('[data-card]'),
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
         })
       })
     }, sectionRef)
@@ -59,62 +116,65 @@ export default function CommunityGallery() {
     <section ref={sectionRef} id="results" className="py-24 px-6 bg-moss/30">
       <div className="max-w-7xl mx-auto">
 
-        {/* Section header — dashboard panel style */}
+        {/* Section header */}
         <div className="border border-cream/10 rounded-lg overflow-hidden mb-10">
           <div className="bg-moss/60 border-b border-cream/10 px-6 py-3 flex items-center justify-between">
-            <span className="text-cream/30 font-mono text-xs uppercase tracking-widest">Community Portfolio</span>
-            <span className="text-cream/20 font-mono text-xs">B/C CLASS · 2,000+ UNITS UNDER MANAGEMENT</span>
+            <span className="text-cream/50 font-mono text-xs uppercase tracking-widest">Community Portfolio</span>
+            <span className="text-cream/40 font-mono text-xs">B/C CLASS · 2,000+ UNITS UNDER MANAGEMENT</span>
           </div>
           <div className="px-6 py-5 bg-charcoal/40">
             <h2 className="text-cream font-sans font-bold text-3xl md:text-4xl mb-2">
               Operations, Transformed.
             </h2>
-            <p className="text-cream/40 text-base max-w-xl">
+            <p className="text-cream/60 text-base max-w-xl">
               What measurable change looks like across portfolio-scale property management.
             </p>
           </div>
         </div>
 
-        {/* Community cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Community cards — GSAP entrance on outer div, Motion tilt on inner */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {COMMUNITIES.map((c, i) => (
             <div
               key={i}
               ref={(el) => (cardsRef.current[i] = el)}
-              className="relative overflow-hidden rounded-lg border border-cream/10 group"
+              data-card
             >
-              {/* Background image */}
-              <div className="absolute inset-0">
-                <img
-                  src={c.image}
-                  alt={c.label}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  onError={(e) => { e.target.src = c.fallback }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/60 to-charcoal/20" />
-              </div>
-
-              {/* Content overlay */}
-              <div className="relative z-10 p-6 flex flex-col justify-between min-h-[280px]">
-                {/* Top: location badge */}
-                <div className="flex items-center gap-1.5 bg-charcoal/60 border border-cream/10 rounded px-2.5 py-1.5 w-fit">
-                  <MapPin size={10} className="text-clay" />
-                  <span className="text-cream/60 font-mono text-xs">{c.location}</span>
+              <TiltCard className="relative overflow-hidden rounded-lg border border-cream/10 group">
+                {/* Background image with parallax */}
+                <div className="absolute inset-[-12%] overflow-hidden">
+                  <img
+                    ref={(el) => (imgRefs.current[i] = el)}
+                    src={c.image}
+                    alt={c.label}
+                    width={600}
+                    height={400}
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                    onError={(e) => { e.target.src = c.fallback }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/60 to-charcoal/20" />
                 </div>
 
-                {/* Bottom: stats */}
-                <div>
-                  <div className="font-mono text-xs text-cream/30 uppercase tracking-widest mb-1">{c.units}</div>
-                  <div className="text-clay font-sans font-bold text-xl leading-tight mb-1">{c.stat}</div>
-                  <div className="text-cream/40 font-mono text-xs">{c.statLabel}</div>
+                {/* Content overlay */}
+                <div className="relative z-10 p-6 flex flex-col justify-between min-h-[280px]">
+                  <div className="flex items-center gap-1.5 bg-charcoal/60 border border-cream/10 rounded px-2.5 py-1.5 w-fit">
+                    <MapPin size={10} className="text-clay" />
+                    <span className="text-cream/60 font-mono text-xs">{c.location}</span>
+                  </div>
+
+                  <div>
+                    <div className="font-mono text-xs text-cream/50 uppercase tracking-widest mb-1">{c.units}</div>
+                    <div className="text-clay font-sans font-bold text-xl leading-tight mb-1">{c.stat}</div>
+                    <div className="text-cream/40 font-mono text-xs">{c.statLabel}</div>
+                  </div>
                 </div>
-              </div>
+              </TiltCard>
             </div>
           ))}
         </div>
 
-        {/* Footnote */}
-        <p className="text-cream/20 font-mono text-xs mt-6 text-center">
+        <p className="text-cream/40 font-mono text-xs mt-6 text-center">
           Replace placeholder images — see public/images/communities/README.md
         </p>
       </div>

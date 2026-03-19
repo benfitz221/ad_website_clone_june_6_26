@@ -59,7 +59,7 @@ export default function DiagnosticShuffler() {
               </div>
               <div className="mt-1 flex items-baseline gap-2">
                 <span className="text-cream font-sans font-bold text-xl">{metric.value}</span>
-                <span className="text-cream/30 text-xs">{metric.unit}</span>
+                <span className="text-cream/50 text-xs">{metric.unit}</span>
               </div>
             </div>
           )
