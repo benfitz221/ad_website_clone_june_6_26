@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q1 2025: Cultivating the OneWall Ecosystem</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #2C3E50;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 40px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease;
+            overflow-y: auto;
+        }
+        
+        .page.hero,
+        .page.roots-section {
+            justify-content: center;
+        }
+        
+        .page.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #0A4D3C 0%, #1B7A5E 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+        
+        .hero h2 {
+            font-size: 2rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            line-height: 1.8;
+            opacity: 0.85;
+        }
+        
+        .roots-section {
+            background: linear-gradient(to bottom, #8B7355 0%, #3E2723 100%);
+            color: white;
+        }
+        
+        .roots-content {
+            max-width: 1200px;
+            text-align: center;
+        }
+        
+        .roots-content h2 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            color: #FFD700;
+        }
+        
+        .roots-content .subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 50px;
+            opacity: 0.9;
+        }
+        
+        .root-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .root-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .root-item:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 215, 0, 0.8);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .root-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #FFD700;
+        }
+        
+        .root-item p {
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        .harvest-section {
+            background: linear-gradient(to bottom, #3E2723 0%, #E8F5E9 100%);
+            min-height: 100vh;
+            padding-bottom: 120px;
+        }
+        
+        .harvest-content {
+            max-width: 1400px;
+            width: 100%;
+        }
+        
+        .harvest-content h2 {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2E7D32;
+        }
+        
+        .harvest-content .subtitle {
+            font-size: 1.3rem;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #FFFFFF;
+        }
+        
+        .branch {
+            margin-bottom: 25px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .branch:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .branch summary {
+            padding: 35px;
+            cursor: pointer;
+            list-style: none;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .branch summary::-webkit-details-marker {
+            display: none;
+        }
+        
+        .branch summary::after {
+            content: '▼';
+            position: absolute;
+            right: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .branch[open] summary::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        
+        .branch summary:hover {
+            opacity: 0.95;
+        }
+        
+        .branch-header h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .branch-header .count {
+            font-size: 1rem;
+            opacity: 0.75;
+            margin-bottom: 15px;
+        }
+        
+        .branch-header .focus {
+            font-size: 1rem;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+        
+        .branch-header .impact {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .branch-content {
+            padding: 0 35px 35px 35px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .deliverable-item {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid;
+        }
+        
+        .deliverable-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+        }
+        
+        .deliverable-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        
+        .deliverable-item p {
+            font-size: 0.9rem;
+            opacity: 0.75;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+        
+        .deliverable-item a {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: #1976D2;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        .deliverable-item a:hover {
+            color: #0D47A1;
+            text-decoration: underline;
+        }
+        
+        .branch.purple summary {
+            background: linear-gradient(135deg, #E5E0EC, #D4CCE0);
+        }
+        .deliverable-item.purple { border-left-color: #9575CD; }
+        
+        .branch.yellow summary {
+            background: linear-gradient(135deg, #FFF2CC, #FFE599);
+        }
+        .deliverable-item.yellow { border-left-color: #FFB300; }
+        
+        .branch.blue summary {
+            background: linear-gradient(135deg, #DEEBF6, #C5D9ED);
+        }
+        .deliverable-item.blue { border-left-color: #42A5F5; }
+        
+        .branch.green summary {
+            background: linear-gradient(135deg, #E2EFD9, #D0E5C2);
+        }
+        .deliverable-item.green { border-left-color: #66BB6A; }
+        
+        .branch.orange summary {
+            background: linear-gradient(135deg, #FBE5D5, #F8D7C4);
+        }
+        .deliverable-item.orange { border-left-color: #FF7043; }
+        
+        .q2-section {
+            background: linear-gradient(to bottom, #1B5E20 0%, #2E7D32 50%, #43A047 100%);
+            color: white;
+            min-height: 100vh;
+            padding-bottom: 120px;
+        }
+        
+        .q2-content {
+            max-width: 1400px;
+            width: 100%;
+        }
+        
+        .q2-content h2 {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #FFD700;
+        }
+        
+        .q2-content .intro {
+            text-align: center;
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        
+        .timeline-badge {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.2);
+            color: #FFD700;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 50px;
+            border: 2px solid rgba(255, 215, 0, 0.4);
+        }
+        
+        .tier-section {
+            margin-bottom: 60px;
+        }
+        
+        .tier-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+            gap: 20px;
+        }
+        
+        .tier-badge {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .tier-1 .tier-badge {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #1B5E20;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+        }
+        
+        .tier-2 .tier-badge {
+            background: linear-gradient(135deg, #81C784, #66BB6A);
+            color: white;
+            box-shadow: 0 4px 15px rgba(129, 199, 132, 0.4);
+        }
+        
+        .tier-description {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+        
+        .q2-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .q2-card {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .q2-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #FFD700, #FFA500);
+        }
+        
+        .tier-2 .q2-card::before {
+            background: linear-gradient(90deg, #81C784, #66BB6A);
+        }
+        
+        .q2-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 215, 0, 0.5);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+        }
+        
+        .item-number {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.25);
+            color: #FFD700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: 2px solid rgba(255, 215, 0, 0.4);
+        }
+        
+        .tier-2 .item-number {
+            background: rgba(129, 199, 132, 0.25);
+            color: #81C784;
+            border-color: rgba(129, 199, 132, 0.4);
+        }
+        
+        .q2-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: #FFD700;
+            padding-right: 50px;
+        }
+        
+        .tier-2 .q2-card h3 {
+            color: #81C784;
+        }
+        
+        .q2-card .focus {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .q2-card .impact-box {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 3px solid #FFD700;
+        }
+        
+        .tier-2 .q2-card .impact-box {
+            border-left-color: #81C784;
+        }
+        
+        .q2-card .impact-box .label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .q2-card .impact-box .text {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .q2-card ul {
+            margin: 15px 0 0 0;
+            padding-left: 0;
+            list-style: none;
+        }
+        
+        .q2-card li {
+            padding: 8px 0 8px 25px;
+            position: relative;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+        
+        .q2-card li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #FFD700;
+            font-weight: bold;
+        }
+        
+        .tier-2 .q2-card li::before {
+            color: #81C784;
+        }
+        
+        .context-note {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .context-note h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #FFD700;
+        }
+        
+        .context-note p {
+            font-size: 1rem;
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+        
+        .context-note ul {
+            margin: 15px 0 0 0;
+            padding-left: 0;
+            list-style: none;
+        }
+        
+        .context-note li {
+            padding: 10px 0 10px 30px;
+            position: relative;
+            line-height: 1.6;
+        }
+        
+        .context-note li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #FFD700;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-arrow {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav-arrow:hover:not(.disabled) {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+        
+        .nav-arrow.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .page-indicator {
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 500;
+            min-width: 100px;
+            text-align: center;
+        }
+        
+        .keyboard-hint {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+        
+        @media (max-width: 1024px) {
+            .q2-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero h2 { font-size: 1.5rem; }
+            .page { padding: 40px 20px; }
+            .root-grid, .branch-content {
+                grid-template-columns: 1fr;
+            }
+            .tier-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .branch summary {
+                padding: 25px;
+            }
+            .branch summary::after {
+                right: 25px;
+            }
+            .branch-content {
+                padding: 0 25px 25px 25px;
+            }
+            .navigation {
+                padding: 10px 20px;
+                gap: 15px;
+            }
+            .keyboard-hint {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page 1: Hero Section -->
+    <div class="page hero active" data-page="1">
+        <h1>Q1 2025: Cultivating the Ecosystem</h1>
+        <h2>Building Sustainable Growth at OneWall Communities</h2>
+        <p>Like a thriving ecosystem, our Q1 accomplishments represent more than visible outcomes. Beneath the surface, we've cultivated the infrastructure, templates, and AI-powered systems that will enable scalable growth, operational excellence, and competitive differentiation for years to come.</p>
+    </div>
+
+    <!-- Page 2: Roots Section -->
+    <div class="page roots-section" data-page="2">
+        <div class="roots-content">
+            <h2>🌱 The Invisible Foundation</h2>
+            <p class="subtitle">The most valuable work in Q1 isn't on this list—it's the reusable infrastructure we built</p>
+            
+            <div class="root-grid">
+                <div class="root-item">
+                    <h3>AI Systems That Learn</h3>
+                    <p>Exercise script generation that improves with every use, building institutional knowledge that compounds over time</p>
+                </div>
+                
+                <div class="root-item">
+                    <h3>Template Library</h3>
+                    <p>Process templates, SOP frameworks, and capability assessment tools that multiply our impact across every function</p>
+                </div>
+                
+                <div class="root-item">
+                    <h3>Partnership Framework</h3>
+                    <p>Structured collaboration model with domain experts like Courtney, turning tribal knowledge into scalable capability</p>
+                </div>
+                
+                <div class="root-item">
+                    <h3>Development Methodology</h3>
+                    <p>Capability development plans that provide clear pathways from current state to Hub & Spoke operating model</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 3: Harvest Section -->
+    <div class="page harvest-section" data-page="3">
+        <div class="harvest-content">
+            <h2>🍃 The Visible Harvest</h2>
+            <p class="subtitle">24 deliverables organized across five themes that demonstrate our Q1 contribution</p>
+            
+            <!-- Branch 1: Capability Development -->
+            <details class="branch purple">
+                <summary>
+                    <div class="branch-header">
+                        <h3>Capability Development</h3>
+                        <p class="count">5 deliverables</p>
+                        <p class="focus"><strong>Strategic focus:</strong> Building the foundation for Hub & Spoke transformation</p>
+                        <p class="impact"><strong>Impact:</strong> Creates structured pathways to centralize operations, freeing capacity for portfolio expansion</p>
+                    </div>
+                </summary>
+                <div class="branch-content">
+                    <div class="deliverable-item purple">
+                        <h4>Standard SOP Template</h4>
+                        <p>Best practice method for granular process documentation</p>
+                        <a href="https://docs.google.com/document/d/1BsvAuL9ohYWj1a-SwK2gCJCYDnFmxSgg/edit?usp=sharing&ouid=113926456297065703265&rtpof=true&sd=true" target="_blank">Link</a>
+                    </div>
+                    <div class="deliverable-item purple">
+                        <h4>Hub & Spoke Target State</h4>
+                        <p>Strategic centralization roadmap for 2026</p>
+                        <a href="https://drive.google.com/file/d/1bq1qxa6Fhf2DLyWEfxAb3ZjJHMhhFExb/view?usp=sharing" target="_blank">Link</a>
+                    </div>
+                    <div class="deliverable-item purple">
+                        <h4>HR Capability Assessment Method</h4>
+                        <p>Structured approach to strategic capability development</p>
+                        <a href="https://docs.google.com/spreadsheets/d/1PMbvshAf_GwMydzw1LYyGrgGR-d2VMc7/edit?usp=sharing&ouid=113926456297065703265&rtpof=true&sd=true" target="_blank">Link</a>
+                    </div>
+                    <div class="deliverable-item purple">
+                        <h4>As-Is HR Capability Assessment</h4>
+                        <p>Level-set current maturity and change priorities</p>
+                        <a href="https://drive.google.com/file/d/1yJpxwlnieh3XKgYFWT4-v_Z2q9L0lMQd/view?usp=sharing" target="_blank">Link</a>
+                    </div>
+                    <div class="deliverable-item purple">
+                        <h4>Business Function Capability Template</h4>
+                        <p>Framework for capturing current capabilities</p>
+                        <a href="https://drive.google.com/file/d/1yJpxwlnieh3XKgYFWT4-v_Z2q9L0lMQd/view?usp=sharing" target="_blank">Link</a>
+                    </div>
+                </div>
+            </details>
+            
+            <!-- Branch 2: HR Capability Development -->
+            <details class="branch yellow">
+                <summary>
+                    <div class="branch-header">
+                        <h3>HR Capability Development</h3>
+                        <p class="count">7 deliverables</p>
+                        <p class="focus"><strong>Strategic focus:</strong> End-to-end talent management from hiring to performance</p>
+                        <p class="impact"><strong>Impact:</strong> Reducing time-to-hire, improving candidate quality and enabling data-driven talent decisions</p>
+                    </div>
+                </summary>
+                <div class="branch-content">
+                    <div class="deliverable-item yellow">
+                        <h4>HR Process Priority Framework</h4>
+                        <p>Best practice for prioritizing HR improvements</p>
+                        <a href="https://drive.google.com/file/d/1OpIy9y4d3zL4iVpAcjJyCUCDBMEw08_-/view?usp=sharing" target="_blank">Link</a>
+                    </div>
+                    <div class="deliverable-item yellow">
+                        <h4>Current Hiring Process Definition</h4>
+                        <p>Baseline measurement for continuous improvement</p>
+                        <a href="https://drive.google.com/file/d/1WnzEv-_8VVUwAwI73PhWckou9Oc3p2BL/view?usp=sharing" target="_blank">Link</a>
+                    </div>
+                    <div class="deliverable-item yellow">
+                        <h4>Improvement Ideas Register</h4>
+                        <p>Roadmap for continuous process improvement</p>
+                        <a href="https://docs.google.com/spreadsheets/d/1SCxtXuBgVuclRwTmkCvg2oBxQKs09-lK/edit?usp=sharing&ouid=113926456297065703265&rtpof=true&sd=true" target="_blank">Link</a>
+                    </div>
+                    <div class="deliverable-item yellow">
+                        <h4>Candidate Evaluation Tool v2</h4>
+                        <p>Reduces effort and time-to-hire with better evaluation</p>
+                        <a href="https://ow-hiring-tool.vercel.app/hires" target="_blank">Link</a>
+                    </div>
+                    <div class="deliverable-item yellow">
+                        <h4>RAG Platform Analysis</h4>
+                        <p>AI-powered knowledge base for onboarding</p>
+                        <a href="https://owc-custom-kb-v1.vercel.app/" target="_blank">Link</a>
+                    </div>
+                    <div class="deliverable-item yellow">
+                        <h4>Custom RAG Solution</h4>
+                        <p>Flexible, scalable platform for employee onboarding and general information</p>
+                        <a href="https://owc-custom-kb-v1.vercel.app/" target="_blank">Link</a>
+                    </div>
+                    <div class="deliverable-item yellow">
+                        <h4>Annual Performance Review Tool</h4>
+                        <p>Centralized records reducing compliance risk</p>
+                        <a href="https://owc-annual-performance-2025.vercel.app/sign-in" target="_blank">Link</a>
+                    </div>
+                </div>
+            </details>
+            
+            <!-- Branch 3: Renewals Process -->
+            <details class="branch blue">
+                <summary>
+                    <div class="branch-header">
+                        <h3>Renewals Process</h3>
+                        <p class="count">4 deliverables</p>
+                        <p class="focus"><strong>Strategic focus:</strong> Automation and optimization of resident retention</p>
+                        <p class="impact"><strong>Impact:</strong> Increases renewal rates while reducing manual effort, directly supporting revenue stability</p>
+                    </div>
+                </summary>
+                <div class="branch-content">
+                    <div class="deliverable-item blue">
+                        <h4>Current Renewals Process</h4>
+                        <p>Comprehensive documentation including all variants</p>
+                        <a href="https://owc-renewals-process-exercise-detail-v04.vercel.app/" target="_blank">Link</a>
+                    </div>
+                    <div class="deliverable-item blue">
+                        <h4>Renewals Improvements Register</h4>
+                        <p>Prioritized opportunities for optimization</p>
+                        <a href="https://docs.google.com/spreadsheets/d/1gmk18eKtyItf-NbijScR74VrO-6NwCnh/edit?usp=sharing&ouid=113926456297065703265&rtpof=true&sd=true" target="_blank">Link</a>
+                    </div>
+                    <div class="deliverable-item blue">
+                        <h4>Ideal Renewals Process</h4>
+                        <p>Future state design aligned with Venn-City</p>
+                        <a href="https://owc-ideal-renewals-process-v2.vercel.app/" target="_blank">Link</a>
+                    </div>
+                    <div class="deliverable-item blue">
+                        <h4>Communication Automation Pilot (WIP)</h4>
+                        <p>Automated resident communications at Trexler Park</p>
+                        <a href="https://drive.google.com/file/d/1NoLw2DlLZvQ6k8A7hFtn0HmtZUadrGAY/view?usp=sharing" target="_blank">Link</a>
+                    </div>
+                </div>
+            </details>
+            
+            <!-- Branch 4: Community Transition Process -->
+            <details class="branch green">
+                <summary>
+                    <div class="branch-header">
+                        <h3>Community Transition Process</h3>
+                        <p class="count">6 deliverables</p>
+                        <p class="focus"><strong>Strategic focus:</strong> Standardizing and accelerating property onboarding</p>
+                        <p class="impact"><strong>Impact:</strong> Enabling faster integration of acquisitions with reduced effort and errors</p>
+                    </div>
+                </summary>
+                <div class="branch-content">
+                    <div class="deliverable-item green">
+                        <h4>As-Is Transition Process v26</h4>
+                        <p>Articulates key tasks and complex sequences</p>
+                        <a href="https://onboarding-map-v26.vercel.app/" target="_blank">Link</a>
+                    </div>
+                    <div class="deliverable-item green">
+                        <h4>Onboarding Timeline Guide v4</h4>
+                        <p>Supplemental guidance on timeline logic</p>
+                        <a href="https://drive.google.com/file/d/1UaYcJ-COGXpepdvVKOF7UdFQNtk35u61/view?usp=sharing" target="_blank">Link</a>
+                    </div>
+                    <div class="deliverable-item green">
+                        <h4>Data Collection Templates</h4>
+                        <p>Clear instructions for efficient data transfer</p>
+                        <a href="https://drive.google.com/drive/folders/1rZoNLn4K0H7-dlTkCn779StQWqdvm7GJ?usp=sharing" target="_blank">Link</a>
+                    </div>
+                    <div class="deliverable-item green">
+                        <h4>Property Transition Scripts</h4>
+                        <p>Automated data ingestion reducing manual effort</p>
+                        <a href="https://drive.google.com/drive/folders/1vsa3VnwxJ4zZY05lqe6dCG1s-MCFkeVo?usp=drive_link" target="_blank">Link</a>
+                    </div>
+                    <div class="deliverable-item green">
+                        <h4>Document Repository Definition</h4>
+                        <p>Transparent view of standard documentation needs</p>
+                        <a href="https://documentation-mapping-v2-96lq.vercel.app/" target="_blank">Link</a>
+                    </div>
+                    <div class="deliverable-item green">
+                        <h4>Monday.com Transition Template</h4>
+                        <p>Efficient coordination with reduced errors</p>
+                        <a href="https://owcommunities.monday.com/" target="_blank">Link</a>
+                    </div>
+                </div>
+            </details>
+            
+            <!-- Branch 5: Community Report Application -->
+            <details class="branch orange">
+                <summary>
+                    <div class="branch-header">
+                        <h3>Community Report Application</h3>
+                        <p class="count">2 deliverables</p>
+                        <p class="focus"><strong>Strategic focus:</strong> AI-powered insights for operations and prospects</p>
+                        <p class="impact"><strong>Impact:</strong> Faster decision-making plus revenue opportunity for 3rd party business development</p>
+                    </div>
+                </summary>
+                <div class="branch-content">
+                    <div class="deliverable-item orange">
+                        <h4>Reporting Solution Phase 1</h4>
+                        <p>AI-powered ownership reports with commentary</p>
+                        <a href="https://agentdone.vercel.app/upload" target="_blank">Link</a>
+                    </div>
+                    <div class="deliverable-item orange">
+                        <h4>Data Diagnostic Tool</h4>
+                        <p>Used to quickly diagnose data issues</p>
+                        <a href="https://agentdone.vercel.app/playground/executive-summary" target="_blank">Link</a>
+                    </div>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- Page 4: Q2 Delivery Proposal Section -->
+    <div class="page q2-section" data-page="4">
+        <div class="q2-content">
+            <h2>🌿 Q2 Delivery Proposal</h2>
+            <p class="intro">Building on Q1's foundation, our Q2 roadmap prioritizes time savings for property operations and strategic capability development initiatives that make the transition to Hub and Spoke real</p>
+            <div style="text-align: center;">
+                <span class="timeline-badge">February – April 2025</span>
+            </div>
+            
+            <!-- Priority Tier 1: Must Haves -->
+            <div class="tier-section tier-1">
+                <div class="tier-header">
+                    <span class="tier-badge">Priority Tier 1</span>
+                    <span class="tier-description">Must-Have Initiatives</span>
+                </div>
+                
+                <div class="q2-grid">
+                    <!-- Item 1: Renewals -->
+                    <div class="q2-card">
+                        <div class="item-number">1</div>
+                        <h3>Renewals Process Transformation</h3>
+                        <p class="focus">Protect operational capacity through continued automation while refining requirements for Venn City integration</p>
+                        <ul>
+                            <li>Continue resident communication automation solution</li>
+                            <li>Workshop to prioritize backlog focused on returning time to on-site teams</li>
+                            <li>Refine Venn City integration requirements</li>
+                        </ul>
+                        <div class="impact-box">
+                            <div class="label">Why This Matters</div>
+                            <div class="text">New changes take time to embed—protecting this work gives operations teams the breathing room they need to absorb improvements and reinvest capacity into resident service</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 2: Hub & Spoke -->
+                    <div class="q2-card">
+                        <div class="item-number">2</div>
+                        <h3>Hub & Spoke Capability Development</h3>
+                        <p class="focus">Make the centralization strategy tangible by developing one property operations function plus HR through structured 12-month development plans</p>
+                        <ul>
+                            <li>Select one focus: Leasing & Marketing, Maintenance & Capital Projects, or Resident Services</li>
+                            <li>HR function capability development</li>
+                            <li>Create development plans addressing process, people, and technology</li>
+                            <li>Support sponsors to enact plans through year-end</li>
+                        </ul>
+                        <div class="impact-box">
+                            <div class="label">Timeline Context</div>
+                            <div class="text">Feb-Mar: HR development • Mid Mar-Late Apr: 1 of 3 ops functions. Hub & Spoke execution begins in 2026 with these plans as foundation</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 3: Reporting -->
+                    <div class="q2-card">
+                        <div class="item-number">3</div>
+                        <h3>Community Reporting Solution Phase 2</h3>
+                        <p class="focus">Define and develop next phase to ensure scalability for new portfolio acquisitions and accuracy for external presentations</p>
+                        <ul>
+                            <li>Scale reporting for nature of expanding portfolio</li>
+                            <li>Ensure accuracy and presentation readiness</li>
+                            <li>Prepare for potential 3rd party business development opportunities</li>
+                        </ul>
+                        <div class="impact-box">
+                            <div class="label">Business Growth Driver</div>
+                            <div class="text">Positions OneWall as innovation leader while supporting faster decision-making and creating potential revenue stream through reporting-as-a-service</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 4: Support & Handover -->
+                    <div class="q2-card">
+                        <div class="item-number">4</div>
+                        <h3>Support & Handover of Existing Solutions</h3>
+                        <p class="focus">Ensure successful adoption of Q1 deliverables through targeted support and knowledge transfer</p>
+                        <ul>
+                            <li>Hiring Solution ongoing support</li>
+                            <li>Property Transition Scripts maintenance</li>
+                            <li>Consulting support to functional leads implementing CDF plans</li>
+                        </ul>
+                        <div class="impact-box">
+                            <div class="label">Sustainability Focus</div>
+                            <div class="text">Q1 investments only deliver value if adopted—this ensures smooth transition to business-as-usual operations</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Priority Tier 2: Stretch Targets -->
+            <div class="tier-section tier-2">
+                <div class="tier-header">
+                    <span class="tier-badge">Priority Tier 2</span>
+                    <span class="tier-description">Stretch Targets</span>
+                </div>
+                
+                <div class="q2-grid">
+                    <!-- Item 5: RAG Solution -->
+                    <div class="q2-card">
+                        <div class="item-number">5</div>
+                        <h3>RAG Solution Deployment</h3>
+                        <p class="focus">Medium delivery effort, low change effort, high business value—chat-based knowledge base for on-site teams</p>
+                        <ul>
+                            <li>Managers curate role-specific documentation</li>
+                            <li>Employees access knowledge via phone (voice or text)</li>
+                            <li>Support onboarding: "How's this done at OneWall?"</li>
+                            <li>On-site reference: "Who are our preferred renovation vendors?"</li>
+                        </ul>
+                        <div class="impact-box">
+                            <div class="label">Efficiency Multiplier</div>
+                            <div class="text">Reduces time spent searching for answers and accelerates new hire productivity through instant access to institutional knowledge</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 6: ADP Optimization -->
+                    <div class="q2-card">
+                        <div class="item-number">6</div>
+                        <h3>ADP Platform Optimization</h3>
+                        <p class="focus">Study current capability usage and build roadmap to unlock value while avoiding tool sprawl</p>
+                        <ul>
+                            <li>Complete capability study (underway)</li>
+                            <li>Build utilization roadmap</li>
+                            <li>Redesign certain processes to fit the way ADP is built and support user adoption for true benefits realization</li>
+                        </ul>
+                        <div class="impact-box">
+                            <div class="label">Change Management Consideration</div>
+                            <div class="text">New team may appreciate one more quarter to stabilize and consider their data and system requirements</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 7: Transition Optimization -->
+                    <div class="q2-card">
+                        <div class="item-number">7</div>
+                        <h3>Property Transition Process Optimization</h3>
+                        <p class="focus">Direct support to transition specialist to refine and optimize acquisition onboarding workflows</p>
+                        <ul>
+                            <li>Process refinement based on recent transitions</li>
+                            <li>Documentation updates and improvements</li>
+                            <li>Automation opportunity identification</li>
+                        </ul>
+                        <div class="impact-box">
+                            <div class="label">Portfolio Growth Enabler</div>
+                            <div class="text">Continuous improvement of transition process directly supports aggressive acquisition strategy</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 8: Future Pipeline -->
+                    <div class="q2-card">
+                        <div class="item-number">8</div>
+                        <h3>New Ideas Pipeline</h3>
+                        <p class="focus">Evaluate, prioritize, and schedule emerging opportunities as they arise</p>
+                        <ul>
+                            <li>Stakeholder idea collection</li>
+                            <li>Business value assessment</li>
+                            <li>Resource and timeline feasibility</li>
+                            <li>Prioritization and scheduling</li>
+                        </ul>
+                        <div class="impact-box">
+                            <div class="label">Adaptive Planning</div>
+                            <div class="text">Maintains flexibility to respond to emerging needs while ensuring rigorous evaluation process</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Context Note -->
+            <div class="context-note">
+                <h3>Strategic Priorities Context</h3>
+                <p>Our Q2 approach balances immediate operational needs with long-term strategic capability building:</p>
+                <ul>
+                    <li>Established property operations and HR as primary capability development focus areas</li>
+                    <li>Capability development defines critical processes and improvement pathways—SOP targets established, Hub & Spoke execution begins 2026</li>
+                    <li>Priority Tier 1 represents committed work that protects Q1 investments and advances strategic transformation</li>
+                    <li>Priority Tier 2 provides high-value stretch targets that can flex based on capacity and organizational readiness</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Controls -->
+    <div class="navigation">
+        <div class="nav-arrow" id="prevArrow">↑</div>
+        <div class="page-indicator">
+            <span id="currentPage">1</span> / <span id="totalPages">4</span>
+        </div>
+        <div class="nav-arrow" id="nextArrow">↓</div>
+        <div class="keyboard-hint">Use ↑↓ arrows</div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = 4;
+        
+        function updatePage() {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show current page
+            const activePage = document.querySelector(`.page[data-page="${currentPage}"]`);
+            if (activePage) {
+                activePage.classList.add('active');
+            }
+            
+            // Update page indicator
+            document.getElementById('currentPage').textContent = currentPage;
+            
+            // Update arrow states
+            const prevArrow = document.getElementById('prevArrow');
+            const nextArrow = document.getElementById('nextArrow');
+            
+            if (currentPage === 1) {
+                prevArrow.classList.add('disabled');
+            } else {
+                prevArrow.classList.remove('disabled');
+            }
+            
+            if (currentPage === totalPages) {
+                nextArrow.classList.add('disabled');
+            } else {
+                nextArrow.classList.remove('disabled');
+            }
+        }
+        
+        function nextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updatePage();
+            }
+        }
+        
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePage();
+            }
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+                e.preventDefault();
+                nextPage();
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                e.preventDefault();
+                prevPage();
+            }
+        });
+        
+        // Click navigation
+        document.getElementById('nextArrow').addEventListener('click', nextPage);
+        document.getElementById('prevArrow').addEventListener('click', prevPage);
+        
+        // Initialize
+        updatePage();
+    </script>
+</body>
+</html>

@@ -14,7 +14,6 @@ import {
   GitBranch,
   Building2,
   RefreshCw,
-  Quote,
 } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -38,12 +37,6 @@ const GAP_BODY_1 =
   "Your portfolio grew faster than your processes. The systems that worked at 1,500 units break down at 4,000. Every new property adds friction your team absorbs manually\u200A\u2014\u200Aand every unfilled maintenance position makes it worse."
 const GAP_BODY_2 =
   "You need the operational infrastructure of a firm twice your size. But you can\u2019t justify the headcount, and the last consultant left you with recommendations that never got implemented."
-
-/* ── Section 3: Courtney Testimonial ── */
-const COURTNEY_QUOTE =
-  "Before Agent Done, our onboarding process was different at every property\u200A\u2014\u200Abinders nobody read, checklists that lived in someone\u2019s head. They sat with our site teams, mapped how onboarding actually happened, and built a system around that. Our new hires hit the ground faster and our managers finally stopped reinventing the wheel."
-const COURTNEY_NAME = 'Courtney Troka'
-const COURTNEY_TITLE = 'Process & Systems Manager, OneWall Communities'
 
 /* ── Section 4: Three Service Pillars ── */
 const PILLARS_EYEBROW = 'What We Deliver'
@@ -156,7 +149,6 @@ export default function Services() {
   const { hash } = useLocation()
   const heroRef = useRef(null)
   const gapRef = useRef(null)
-  const testimonialRef = useRef(null)
   const pillarsRef = useRef(null)
   const diagRef = useRef(null)
   const phasesRef = useRef(null)
@@ -200,21 +192,6 @@ export default function Services() {
           scrollTrigger: {
             trigger: gapRef.current,
             start: 'top 80%',
-          },
-        })
-      }
-
-      // Testimonial
-      if (testimonialRef.current) {
-        gsap.from(testimonialRef.current.querySelectorAll('.anim'), {
-          y: 20,
-          opacity: 0,
-          duration: 0.7,
-          stagger: 0.1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: testimonialRef.current,
-            start: 'top 85%',
           },
         })
       }
@@ -368,29 +345,6 @@ export default function Services() {
           <p className="anim text-cream/60 text-base md:text-lg leading-relaxed">
             {GAP_BODY_2}
           </p>
-        </div>
-      </section>
-
-      {/* ── COURTNEY TESTIMONIAL ── */}
-      <section ref={testimonialRef} className="py-0 bg-charcoal border-t border-b border-cream/10">
-        <div className="max-w-3xl mx-auto px-6 py-14">
-          <div className="anim flex flex-col items-center text-center">
-            <Quote className="w-8 h-8 text-clay/30 mb-4" />
-            <p className="text-cream/90 font-sans text-xl md:text-2xl font-medium leading-relaxed mb-6 [text-wrap:balance]">
-              &ldquo;{COURTNEY_QUOTE}&rdquo;
-            </p>
-            <div className="flex items-center gap-3">
-              {/* OneWall icon mark */}
-              <svg className="h-4 w-auto shrink-0" viewBox="5 7 87 146" fill="none" aria-hidden="true">
-                <polygon fill="#BA0D2E" points="92,7.2 91.9,7.3 62.9,7.3 34,30.1 63.1,30.1 63.1,129.8 92,106.9" />
-                <polygon fill="#D1E3DB" opacity="0.5" points="5,53.1 5,152.8 5,152.7 34.1,152.7 63,129.9 33.9,129.9 33.9,30.3" />
-              </svg>
-              <div className="text-left">
-                <span className="text-cream/70 font-mono text-xs font-bold">{COURTNEY_NAME}</span>
-                <span className="text-cream/30 font-mono text-xs">{' '}&mdash; {COURTNEY_TITLE}</span>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 

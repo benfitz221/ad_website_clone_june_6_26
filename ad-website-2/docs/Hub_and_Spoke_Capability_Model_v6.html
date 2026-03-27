@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      One Wall Communities - Capability Development Model
+    </title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #0A1740;
+        min-height: 100vh;
+        padding: 10px;
+        color: #333;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+      }
+
+      .header {
+        background: #0A1740;
+        color: white;
+        padding: 25px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .logo {
+        width: 150px;
+        height: auto;
+        filter: brightness(0) invert(1);
+      }
+
+      .header h1 {
+        font-size: 2.8em;
+        margin: 0;
+        font-weight: 300;
+        letter-spacing: -1px;
+      }
+
+      /* Scoring Legend - Compact */
+      .scoring-legend {
+        background: rgba(37, 176, 176, 0.1);
+        padding: 15px 20px;
+        border-left: 4px solid #25B0B0;
+        margin: 0;
+      }
+
+      .legend-title {
+        font-size: 1.1em;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #0A1740;
+      }
+
+      .legend-content {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+      }
+
+      .legend-section {
+        flex: 1;
+        min-width: 300px;
+      }
+
+      .legend-section h4 {
+        font-size: 0.9em;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #0A1740;
+      }
+
+      .legend-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 2px 0;
+        font-size: 0.8em;
+      }
+
+      .score-color {
+        width: 18px;
+        height: 12px;
+        border-radius: 3px;
+        margin-left: 8px;
+      }
+
+      .score-1 { background: #A01D28; }
+      .score-2 { background: #f39c12; }
+      .score-3 { background: #f1c40f; }
+      .score-4 { background: #25B0B0; }
+      .score-5 { background: #77d1d1; }
+
+      /* Strategic Layer - Compact */
+      .strategic-layer {
+        padding: 20px;
+        background: #0A1740;
+        color: white;
+      }
+
+      .strategic-title {
+        text-align: center;
+        font-size: 1.4em;
+        margin-bottom: 20px;
+        font-weight: 300;
+      }
+
+      .strategic-row {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+      }
+
+      .strategic-section {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 20px;
+        border-radius: 15px;
+        flex: 1;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+      }
+
+      .strategic-section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        background: rgba(255, 255, 255, 0.25);
+      }
+
+      .strategic-section h3 {
+        font-size: 1.2em;
+        margin-bottom: 15px;
+        text-align: center;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        padding-bottom: 8px;
+      }
+
+      /* Strategic items in horizontal layout */
+      .strategic-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      .strategic-item {
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        text-align: center;
+        flex: 1;
+        min-width: 120px;
+        max-width: 200px;
+      }
+
+      .strategic-item:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+      }
+
+      .strategic-item strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 0.95em;
+      }
+
+      .strategic-item span {
+        font-size: 0.8em;
+        opacity: 0.9;
+        line-height: 1.3;
+      }
+
+      /* Value Chain - Compact */
+      .value-chain-section {
+        padding: 20px;
+        background: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+      }
+
+      .value-chain-title {
+        text-align: center;
+        font-size: 1.4em;
+        margin-bottom: 15px;
+        color: #0A1740;
+        font-weight: 300;
+      }
+
+      .value-chain-flow {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .value-chain-item {
+        background: #25B0B0;
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+        min-width: 180px;
+        flex: 1;
+        max-width: 200px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+
+      .value-chain-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        background: #77d1d1;
+      }
+
+      .value-chain-item h4 {
+        font-size: 0.95em;
+        font-weight: 600;
+        line-height: 1.3;
+      }
+
+      /* Chain connectors */
+      .value-chain-item:not(:last-child)::after {
+        content: "→";
+        position: absolute;
+        right: -12px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.2em;
+        color: #25B0B0;
+        font-weight: bold;
+      }
+
+      /* Support Functions - Compact */
+      .support-layer {
+        padding: 20px;
+        background: #25B0B0;
+        color: white;
+      }
+
+      .support-title {
+        text-align: center;
+        font-size: 1.4em;
+        margin-bottom: 15px;
+        font-weight: 300;
+      }
+
+      .support-functions {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .support-function {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 12px 20px;
+        border-radius: 12px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.9em;
+        min-width: 140px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .support-function:hover {
+        transform: translateY(-3px);
+        background: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Modal for detailed view */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+      }
+
+      .modal-content {
+        background-color: white;
+        margin: 3% auto;
+        padding: 25px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 700px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        position: relative;
+        max-height: 85vh;
+        overflow-y: auto;
+      }
+
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+        position: absolute;
+        right: 15px;
+        top: 12px;
+      }
+
+      .close:hover {
+        color: #000;
+      }
+
+      .capability-scores {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin: 15px 0;
+      }
+
+      .capability-item {
+        background: #f8f9fa;
+        padding: 12px;
+        border-radius: 8px;
+        border-left: 4px solid #25B0B0;
+      }
+
+      .capability-name {
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #0A1740;
+        font-size: 0.9em;
+      }
+
+      .capability-score {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .score-value {
+        font-weight: bold;
+        padding: 3px 6px;
+        border-radius: 4px;
+        color: white;
+        min-width: 30px;
+        text-align: center;
+        font-size: 0.9em;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1400px) {
+        .strategic-items {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+        }
+        
+        .logo {
+          width: 120px;
+        }
+      }
+
+      @media (max-width: 1200px) {
+        .value-chain-flow {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .value-chain-item:not(:last-child)::after {
+          content: "↓";
+          right: 50%;
+          top: 100%;
+          transform: translateX(50%);
+        }
+
+        .strategic-items {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .strategic-row {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .legend-content {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .support-functions {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .value-chain-item {
+          min-width: 160px;
+          max-width: 280px;
+        }
+
+        .strategic-items {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+        }
+
+        .strategic-item {
+          padding: 8px;
+        }
+
+        .strategic-item strong {
+          font-size: 0.85em;
+        }
+
+        .strategic-item span {
+          font-size: 0.75em;
+        }
+        
+        .logo {
+          width: 100px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <svg class="logo" viewBox="0 0 380 160" xmlns="http://www.w3.org/2000/svg">
+          <g>
+            <g>
+              <polygon class="st0" points="92,7.2 91.9,7.3 62.9,7.3 34,30.1 63.1,30.1 63.1,129.8 92,106.9" fill="#A01D28"/>
+              <polygon class="st1" points="5,53.1 5,152.8 5,152.7 34.1,152.7 63,129.9 33.9,129.9 33.9,30.3" fill="currentColor"/>
+            </g>
+            <path class="st0" d="M375,83.7V33.9l-11.3,1.4v48.5C363.7,83.7,375,83.7,375,83.7z M357.1,83.7V33.9l-11.3,1.4v48.5
+              C345.8,83.7,357.1,83.7,357.1,83.7z M328.4,79.6c1.5,3.8,5.2,5.7,12.6,4.8l1.1-8.1c-2.3-0.2-2.8-0.4-2.8-2.8l0.1-10.1
+              c0.1-9.5-3.7-14.9-15.6-14.9c-6.5,0-12.1,2.1-15.7,4l2.3,8.3c4-2,8.1-3.5,11.6-3.5c4.2,0,6,1.6,6,5.2v0.6
+              c-15.3,0.4-20.2,5.6-20.2,12.1c0,5.3,4.5,9.5,10.4,9.5c4.7,0,7.4-2.3,9.8-5.2L328.4,79.6L328.4,79.6z M328.1,75.1
+              c-1.2,1.3-3,2.3-5.3,2.3c-2.5,0-4.2-1.5-4.2-3.7c0-3,2.6-4.3,9.5-5.1L328.1,75.1L328.1,75.1z M275,51.1l8.9,32.7h12.2l12.2-45.8
+              h-12l-6.2,32.4l-8.4-32.4h-13.3l-8.2,32.4l-6.2-32.4h-12.5l12.2,45.8H266L275,51.1z M216.8,63.6c0.4-3.9,2.7-7.3,6.6-7.3
+              c3.5,0,5.2,2.5,5.2,6.5v0.6L216.8,63.6z M216.7,69.2l21.6-0.4c0.4-1.5,0.7-4.2,0.7-6c0-8.5-5.3-14.3-15-14.3
+              c-10.9,0-18.5,7.3-18.5,18.4c0,11.4,7.5,17.8,19.1,17.8c4.9,0,9.8-1,13.3-2.8l-1.1-8.7c-3.5,2-7.4,3.3-11.2,3.3
+              c-5.5,0-8.6-2.6-9-7.2C216.7,69.3,216.7,69.2,216.7,69.2z M201.1,83.7V60.3c0-7.3-4-11.7-10.9-11.7c-4.4,0-8.4,2.4-11.5,5.9v-5.6
+              l-11.3,1.4v33.5h11.3v-23c1.5-1.3,3.7-2.6,6.2-2.6c3,0,4.8,1.3,4.8,5.4v20.2H201.1z M150.3,60.9c0,8.6-4.5,14.5-12.2,14.5
+              c-7.9,0-12.4-6-12.4-14.8c0-8.6,4.4-14.5,12.2-14.5C145.7,46.2,150.3,52.1,150.3,60.9 M162.1,60.6c0-15.5-10.3-23.9-24-23.9
+              c-13.6,0-24.1,9.6-24.1,24.1c0,15.5,10.3,23.9,23.9,23.9C151.6,84.8,162.1,75.2,162.1,60.6" fill="#A01D28"/>
+            <g fill="currentColor">
+              <path d="M135.3,97.6c-2-1.3-4.2-2-6.6-2c-4.9,0-8.1,3.4-8.1,8.8c0,5.5,3.2,9,8.2,9c2.6,0,5-1,6.8-2.2l0.9,4.5
+                c-2,1.2-5.1,2-8,2c-7.7,0-12.9-4.8-12.9-13c0-8,5.2-13.2,13-13.2c2.9,0,5.9,0.8,8.1,2L135.3,97.6z"/>
+              <path d="M148.4,117.6c-5.4,0-9.3-3.7-9.3-9.8c0-6.1,4.1-9.9,9.6-9.9s9.3,3.8,9.3,9.8
+                C157.9,113.8,153.8,117.6,148.4,117.6z M148.4,101.7c-3.1,0-4.8,2.5-4.8,6c0,3.5,1.8,6,4.8,6c3,0,4.7-2.4,4.7-6
+                S151.5,101.7,148.4,101.7z"/>
+              <path d="M185,117v-11.2c0-2.7-1.1-3.7-3-3.7c-1.6,0-2.9,0.8-3.8,1.6v1.1V117h-4.7v-11.2c0-2.7-1-3.7-3-3.7
+                c-1.7,0-3,0.7-3.8,1.5V117h-4.7V98.6l4.7-0.6c0,0,0,2.4,0,2.6c1.7-1.7,3.6-2.6,5.9-2.6c2.2,0,4.1,1.1,5,3.2c1.8-2,4-3.2,6.6-3.2
+                c3.5,0,5.7,2.4,5.7,6.4V117H185z"/>
+              <path d="M217.6,117v-11.2c0-2.7-1.1-3.7-3-3.7c-1.6,0-2.9,0.8-3.8,1.6v1.1V117H206v-11.2c0-2.7-1-3.7-3-3.7
+                c-1.7,0-3,0.7-3.8,1.5V117h-4.7V98.6l4.7-0.6c0,0,0,2.4,0,2.6c1.7-1.7,3.6-2.6,5.9-2.6c2.2,0,4.1,1.1,5,3.2c1.8-2,4-3.2,6.6-3.2
+                c3.5,0,5.7,2.4,5.7,6.4V117H217.6z"/>
+              <path d="M231.7,98.6v11.2c0,2.7,1.1,3.6,3.1,3.6c1.7,0,3.2-0.8,4-1.6V98.6h4.7v18.3l-4.7,0.6c0,0,0-2.6,0-2.7
+                c-1.5,1.6-3.7,2.8-6.1,2.8c-3.6,0-5.8-2.4-5.8-6.4V98.6H231.7z"/>
+              <path d="M260.6,117v-11.2c0-2.7-1.1-3.6-3.2-3.6c-1.6,0-3.2,0.8-4.1,1.7V117h-4.7V98.6l4.7-0.6c0,0,0,2.8,0,2.9
+                c1.6-1.8,3.8-3,6.1-3c3.7,0,5.9,2.4,5.9,6.4V117H260.6z"/>
+              <path d="M272.5,95.2c-1.8,0-2.9-1.1-2.9-2.8c0-1.7,1-2.8,2.9-2.8c1.9,0,2.9,1.2,2.9,2.8
+                C275.4,94.1,274.4,95.2,272.5,95.2z M270.1,117V98.7l4.7-0.7v19H270.1z"/>
+              <path d="M286.3,117.6c-4.1,0-6.3-1.8-6.1-6.2l0.3-8.7l-2.9-0.3l0.1-3l2.9-0.9l0.1-4.1h4.6l-0.1,4.3h5.2l-0.1,3.9h-5.4
+                l-0.2,8.5c0,1.7,0.8,2.5,2.4,2.5c1,0,1.9-0.2,2.9-0.6l0.6,3.8C289.2,117.4,287.9,117.6,286.3,117.6z"/>
+              <path d="M296.4,95.2c-1.8,0-2.9-1.1-2.9-2.8c0-1.7,1-2.8,2.9-2.8c1.9,0,2.9,1.2,2.9,2.8
+                C299.3,94.1,298.3,95.2,296.4,95.2z M294,117V98.7l4.7-0.7v19H294z"/>
+              <path d="M307.3,108.8c0.2,3,2.2,5,5.5,5c2,0,4.1-0.6,5.8-1.7l0.6,3.9c-1.8,1-4.2,1.5-6.7,1.5c-5.9,0-9.8-3.8-9.8-9.6
+                c0-6,4-10,9.5-10c4.9,0,7.6,3,7.6,7.5c0,1-0.2,2.3-0.4,3.1c0,0-12.1,0.2-12.1,0.2V108.8z M315.3,105.9c0-0.1,0-0.3,0-0.3
+                c0-2.5-1.1-4-3.5-4c-2.6,0-4.2,2.1-4.4,4.4L315.3,105.9z"/>
+              <path d="M329.3,117.6c-2.4,0-5.3-0.7-7.2-1.7l1-3.7c1.8,1,4.2,1.7,6.2,1.7c1.8,0,3-0.8,3-2c0-1.4-1.6-2-3.7-2.5
+                c-3.5-0.8-6.2-2.2-6.2-5.7c0-3.5,2.9-5.8,7.4-5.8c2.3,0,5,0.6,6.7,1.5l-1,3.7c-1.8-0.9-4.2-1.5-5.8-1.5c-1.7,0-2.8,0.6-2.8,1.8
+                c0,1.4,1.6,1.9,3.7,2.4c3.5,0.8,6.3,2.2,6.3,5.8C337,115.1,334,117.6,329.3,117.6z"/>
+            </g>
+            <g fill="currentColor">
+              <path d="M338.1,96.1c0-4.6,3.7-8.4,8.3-8.4c4.6,0,8.3,3.8,8.3,8.4c0,4.6-3.7,8.3-8.3,8.3
+                C341.9,104.4,338.1,100.7,338.1,96.1z M346.4,88.5c-4.2,0-7.6,3.5-7.6,7.6c0,4.2,3.4,7.6,7.6,7.6c4.2,0,7.6-3.4,7.6-7.6
+                C354,91.9,350.6,88.5,346.4,88.5z M345.2,100.4H343v-8.7c0,0,3.6,0,3.7,0c2.3,0,3.6,1.1,3.6,2.8c0,1.2-0.6,2.1-1.7,2.5l2.1,3.4
+                h-2.4l-1.7-3l-1.4,0.1V100.4z M346.4,96c1.2,0,1.7-0.5,1.7-1.4c0-0.9-0.5-1.3-1.7-1.3c0,0-1.2,0-1.2,0V96L346.4,96z"/>
+            </g>
+          </g>
+        </svg>
+        <h1>Capability Development Model</h1>
+      </div>
+
+      <!-- Scoring Legend -->
+      <div class="scoring-legend">
+        <div class="legend-title">Capability Development Scoring Framework</div>
+        <div class="legend-content">
+          <div class="legend-section">
+            <h4>Operational Capability Scale</h4>
+            <div class="legend-item">
+              <span>1 - Initial (Ad-hoc, reactive)</span>
+              <div class="score-color score-1"></div>
+            </div>
+            <div class="legend-item">
+              <span>2 - Managed (Planned, basic review)</span>
+              <div class="score-color score-2"></div>
+            </div>
+            <div class="legend-item">
+              <span>3 - Integrated (Standardized, aligned)</span>
+              <div class="score-color score-3"></div>
+            </div>
+            <div class="legend-item">
+              <span>4 - Optimizing (Evidence-based, continuous improvement)</span>
+              <div class="score-color score-4"></div>
+            </div>
+            <div class="legend-item">
+              <span>5 - Transforming (Innovation-driven, strategic value)</span>
+              <div class="score-color score-5"></div>
+            </div>
+          </div>
+          <div class="legend-section">
+            <h4>Strategic Capability Scale</h4>
+            <div class="legend-item">
+              <span>1 - Basic (Fundamental capability present)</span>
+              <div class="score-color score-1"></div>
+            </div>
+            <div class="legend-item">
+              <span>2 - Developing (Structured processes, integration)</span>
+              <div class="score-color score-2"></div>
+            </div>
+            <div class="legend-item">
+              <span>3 - Proficient (Effective delivery, cross-functional)</span>
+              <div class="score-color score-3"></div>
+            </div>
+            <div class="legend-item">
+              <span>4 - Advanced (Data-driven, market-leading practices)</span>
+              <div class="score-color score-4"></div>
+            </div>
+            <div class="legend-item">
+              <span>5 - Exceptional (Industry benchmark, innovation driver)</span>
+              <div class="score-color score-5"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Strategic Layer -->
+      <div class="strategic-layer">
+        <h2 class="strategic-title">Group Strategic Functions</h2>
+        <div class="strategic-row">
+          <div class="strategic-section">
+            <h3>Strategic Decision Functions</h3>
+            <div class="strategic-items">
+              <div class="strategic-item" onclick="showModal('business-development')">
+                <strong>Business Development</strong>
+                <span>Client acquisition, portfolio expansion, market analysis</span>
+              </div>
+              <div class="strategic-item" onclick="showModal('asset-management')">
+                <strong>Asset Management</strong>
+                <span>Financial resource allocation, asset business plans, capex</span>
+              </div>
+              <div class="strategic-item" onclick="showModal('compliance-risk')">
+                <strong>Compliance & Risk Management</strong>
+                <span>Enterprise risk assessment, regulatory compliance, mitigation</span>
+              </div>
+              <div class="strategic-item" onclick="showModal('marketing')">
+                <strong>Marketing</strong>
+                <span>Brand strategy, digital presence, lead generation systems</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="strategic-section">
+            <h3>Governance & Oversight Functions</h3>
+            <div class="strategic-items">
+              <div class="strategic-item" onclick="showModal('executive-leadership')">
+                <strong>Executive Leadership</strong>
+                <span>Strategic planning cycles, board governance</span>
+              </div>
+              <div class="strategic-item" onclick="showModal('operations-management')">
+                <strong>Operations Management</strong>
+                <span>Performance monitoring, escalation procedures</span>
+              </div>
+              <div class="strategic-item" onclick="showModal('quality-assurance')">
+                <strong>Quality Assurance</strong>
+                <span>Service standards, audit processes</span>
+              </div>
+              <div class="strategic-item" onclick="showModal('client-governance')">
+                <strong>Client Governance</strong>
+                <span>Client reporting, SLA management, relationship protocols</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Value Chain -->
+      <div class="value-chain-section">
+        <h2 class="value-chain-title">Local Community Functions (Core Value Chain)</h2>
+        <div class="value-chain-flow">
+          <div class="value-chain-item" onclick="showModal('leasing-marketing')">
+            <h4>Leasing & Marketing Operations</h4>
+          </div>
+          <div class="value-chain-item" onclick="showModal('maintenance-capital')">
+            <h4>Maintenance & Capital Projects</h4>
+          </div>
+          <div class="value-chain-item" onclick="showModal('resident-services')">
+            <h4>Resident Services & Engagement</h4>
+          </div>
+        </div>
+      </div>
+
+      <!-- Support Functions -->
+      <div class="support-layer">
+        <h2 class="support-title">Group Support Functions</h2>
+        <div class="support-functions">
+          <div class="support-function" onclick="showModal('it-support')">IT</div>
+          <div class="support-function" onclick="showModal('finance-support')">Finance</div>
+          <div class="support-function" onclick="showModal('people-support')">People</div>
+          <div class="support-function" onclick="showModal('transformation-support')">Change & Transformation</div>
+          <div class="support-function" onclick="showModal('legal-support')">Legal</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div id="modal-body"></div>
+      </div>
+    </div>
+
+    <script>
+      // Hub strategic capabilities
+      const hubCapabilities = {
+        "Strategic Decision Functions": {
+          "Business Development": 4,
+          "Asset Management": 5,
+          "Compliance & Risk Management": 4,
+          "Marketing": 4,
+        },
+        "Governance & Oversight Functions": {
+          "Executive Leadership": 4,
+          "Operations Management": 4,
+          "Quality Assurance": 4,
+          "Client Governance": 4,
+        },
+        "Operational Value Chain": {
+          "Leasing & Marketing Operations": 4,
+          "Maintenance & Capital Projects": 4,
+          "Resident Services & Engagement": 4,
+        },
+      };
+
+      function getScoreColor(score) {
+        const colors = {
+          1: "#A01D28",
+          2: "#f39c12",
+          3: "#f1c40f",
+          4: "#25B0B0",
+          5: "#77d1d1",
+        };
+        return colors[Math.round(score)] || "#6c757d";
+      }
+
+      function getCapabilityDescription(score, type) {
+        const descriptions = {
+          operational: {
+            1: "Initial - Ad-hoc, reactive approach",
+            2: "Managed - Planned with basic review",
+            3: "Integrated - Standardized and aligned",
+            4: "Optimizing - Data-driven improvement",
+            5: "Transforming - Innovation-driven excellence",
+          },
+          strategic: {
+            1: "Basic - Fundamental capability present",
+            2: "Developing - Structured processes",
+            3: "Proficient - Effective cross-functional delivery",
+            4: "Advanced - Market-leading practices",
+            5: "Exceptional - Industry benchmark",
+          },
+        };
+        return descriptions[type][score] || "Standard processes";
+      }
+
+      function showModal(type) {
+        const modalBody = document.getElementById("modal-body");
+        const content = getModalContent(type);
+        modalBody.innerHTML = content;
+        document.getElementById("modal").style.display = "block";
+      }
+
+      function getModalContent(type) {
+        const contents = {
+          "leasing-marketing": `
+            <h2>Leasing & Marketing Operations</h2>
+            <p>Comprehensive leasing operations from lead generation through lease execution, scaled by operational maturity.</p>
+            <h4>Maturity Progression:</h4>
+            <ul style="margin: 15px 0; padding-left: 20px;">
+              <li><strong>Level 1-2:</strong> Traditional methods, limited automation, basic lead tracking</li>
+              <li><strong>Level 3:</strong> Digital platform adoption, process standardization, CRM integration</li>
+              <li><strong>Level 4-5:</strong> AI-driven lead scoring, automated nurturing, conversion optimization</li>
+            </ul>
+          `,
+          "maintenance-capital": `
+            <h2>Maintenance & Capital Projects</h2>
+            <p>Property maintenance and capital project management capabilities scaled to operational maturity level.</p>
+            <h4>Maturity Progression:</h4>
+            <ul style="margin: 15px 0; padding-left: 20px;">
+              <li><strong>Level 1-2:</strong> Reactive maintenance, local vendors, manual tracking</li>
+              <li><strong>Level 3:</strong> Preventive programs, vendor network integration, digital work orders</li>
+              <li><strong>Level 4-5:</strong> Predictive maintenance, IoT integration, optimized vendor management</li>
+            </ul>
+          `,
+          "resident-services": `
+            <h2>Resident Services & Engagement</h2>
+            <p>Resident experience delivery capabilities that evolve with operational maturity and service sophistication.</p>
+            <h4>Maturity Progression:</h4>
+            <ul style="margin: 15px 0; padding-left: 20px;">
+              <li><strong>Level 1-2:</strong> Basic services, limited programming, reactive support</li>
+              <li><strong>Level 3:</strong> Enhanced services, community programming, resident portal</li>
+              <li><strong>Level 4-5:</strong> Premium concierge services, engagement analytics, personalized experiences</li>
+            </ul>
+          `,
+          "business-development": `
+            <h2>Business Development</h2>
+            <p>Strategic business development capabilities encompassing client acquisition, portfolio growth, and market analysis. Drives revenue expansion through systematic prospect identification, proposal development, and relationship management. Integrates market research capabilities including competitive intelligence, demographic analysis, market entry assessment, and trend identification to inform strategic positioning and growth opportunities.</p>
+            <h4>Maturity Progression:</h4>
+            <ul style="margin: 15px 0; padding-left: 20px;">
+              <li><strong>Level 1-2:</strong> Reactive prospecting, ad-hoc proposals, basic market awareness</li>
+              <li><strong>Level 3:</strong> Structured pipeline management, standardized RFP processes, systematic market monitoring</li>
+              <li><strong>Level 4-5:</strong> Predictive lead scoring, data-driven positioning, strategic partnership ecosystems</li>
+            </ul>
+            <h4>Key Activities:</h4>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+              <li>New client prospecting and qualification processes</li>
+              <li>RFP/RFI response management and win strategies</li>
+              <li>Pipeline management and deal structuring</li>
+              <li>Partnership development and strategic alliances</li>
+              <li>Market research and competitive intelligence</li>
+              <li>Demographic and psychographic analysis</li>
+              <li>Market sizing and opportunity assessment</li>
+              <li>Industry trend monitoring and forecasting</li>
+            </ul>
+          `,
+          "asset-management": `
+            <h2>Asset Management</h2>
+            <p>Strategic oversight of asset-level financial performance and business planning. Directs capital allocation decisions, major renovation projects, and value-add initiatives across the portfolio. Establishes asset business plans, capital budgeting protocols, and investment return frameworks that optimize long-term value creation.</p>
+            <h4>Maturity Progression:</h4>
+            <ul style="margin: 15px 0; padding-left: 20px;">
+              <li><strong>Level 1-2:</strong> Basic capital tracking, reactive project management, limited business planning</li>
+              <li><strong>Level 3:</strong> Structured asset business plans, standardized capital approval processes, ROI frameworks</li>
+              <li><strong>Level 4-5:</strong> Portfolio optimization models, predictive value-add analysis, strategic capital deployment</li>
+            </ul>
+            <h4>Key Activities:</h4>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+              <li>Asset business plan development and monitoring</li>
+              <li>Capital project prioritization and approval</li>
+              <li>Major capex project oversight and governance</li>
+              <li>Value-add strategy formulation and execution</li>
+              <li>ROI analysis and investment decision frameworks</li>
+              <li>Portfolio optimization and rebalancing strategies</li>
+              <li>Asset disposition and acquisition analysis</li>
+              <li>Financial resource allocation and capital deployment</li>
+              <li>Acquisition underwriting service</li>
+              <li>Delinquency management & recovery strategies</li>
+            </ul>
+          `,
+          "compliance-risk": `
+            <h2>Compliance & Risk Management</h2>
+            <p>Enterprise-wide risk identification, assessment, and mitigation strategies that protect organizational assets and ensure regulatory compliance. Establishes frameworks for managing legal, financial, operational, and reputational risks across all business units. Integrates property-level compliance monitoring with strategic risk oversight, encompassing fair housing enforcement, safety protocols, insurance management, legal compliance tracking, regulatory change monitoring, vendor risk assessment, and enterprise risk mitigation strategies.</p>
+            <h4>Maturity Progression:</h4>
+            <ul style="margin: 15px 0; padding-left: 20px;">
+              <li><strong>Level 1-2:</strong> Manual compliance tracking, reactive risk response, periodic reviews</li>
+              <li><strong>Level 3:</strong> Systematic compliance monitoring, regular risk audits, standardized protocols</li>
+              <li><strong>Level 4-5:</strong> Automated compliance monitoring, predictive risk assessment, integrated risk management</li>
+            </ul>
+            <h4>Key Activities:</h4>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+              <li>Enterprise risk assessment and mitigation planning</li>
+              <li>Regulatory compliance monitoring and reporting</li>
+              <li>Insurance program management and claims oversight</li>
+              <li>Legal and litigation risk evaluation</li>
+              <li>Fair housing compliance and enforcement</li>
+              <li>Safety and security protocol development</li>
+              <li>Vendor risk assessment and due diligence</li>
+              <li>Emergency preparedness and business continuity</li>
+              <li>Risk reporting dashboards and escalation protocols</li>
+              <li>Compliance audit coordination and remediation tracking</li>
+            </ul>
+          `,
+          "marketing": `
+            <h2>Marketing</h2>
+            <p>Integrated marketing strategy and execution across owned and third-party managed properties. Encompasses brand positioning, digital marketing, content strategy, and lead generation systems that support both property-level occupancy goals and corporate growth objectives. Drives consistent brand experience while optimizing marketing spend and conversion rates.</p>
+            <h4>Maturity Progression:</h4>
+            <ul style="margin: 15px 0; padding-left: 20px;">
+              <li><strong>Level 1-2:</strong> Property-focused marketing, limited digital presence, basic lead tracking</li>
+              <li><strong>Level 3:</strong> Integrated brand strategy, marketing automation platforms, content calendar management</li>
+              <li><strong>Level 4-5:</strong> AI-driven personalization, predictive analytics, omnichannel optimization</li>
+            </ul>
+            <h4>Key Activities:</h4>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+              <li>Corporate brand strategy and positioning</li>
+              <li>Digital marketing campaigns and social media management</li>
+              <li>Website and online presence optimization</li>
+              <li>Marketing automation and CRM integration</li>
+              <li>Content strategy and creative asset development</li>
+              <li>Lead generation and nurturing systems</li>
+              <li>Marketing analytics and ROI measurement</li>
+              <li>Property marketing support and brand compliance</li>
+              <li>Community partnerships and reputation management</li>
+              <li>Market positioning and competitive differentiation</li>
+              <li>Internal & external communications</li>
+            </ul>
+          `,
+          "executive-leadership": `
+            <h2>Executive Leadership</h2>
+            <p>Strategic direction-setting and organizational governance at the highest level. Establishes corporate vision, strategic priorities, and resource allocation frameworks while ensuring board alignment and stakeholder accountability.</p>
+            <h4>Maturity Progression:</h4>
+            <ul style="margin: 15px 0; padding-left: 20px;">
+              <li><strong>Level 1-2:</strong> Reactive decision-making, informal planning, limited strategic documentation</li>
+              <li><strong>Level 3:</strong> Structured planning cycles, board governance frameworks, documented strategic priorities</li>
+              <li><strong>Level 4-5:</strong> Data-driven strategy formulation, integrated planning systems, continuous strategic adaptation</li>
+            </ul>
+            <h4>Key Activities:</h4>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+              <li>Strategic planning and priority setting</li>
+              <li>Board governance and stakeholder management</li>
+              <li>Organizational structure and leadership development</li>
+              <li>Capital allocation and investment oversight</li>
+              <li>Corporate culture and values stewardship</li>
+              <li>Executive decision-making frameworks</li>
+            </ul>
+          `,
+          "operations-management": `
+            <h2>Operations Management</h2>
+            <p>Systematic oversight of operational performance across all properties and business units. Establishes performance monitoring systems, escalation protocols, and continuous improvement mechanisms to ensure consistent service delivery and operational excellence.</p>
+            <h4>Maturity Progression:</h4>
+            <ul style="margin: 15px 0; padding-left: 20px;">
+              <li><strong>Level 1-2:</strong> Manual monitoring, reactive interventions, inconsistent oversight</li>
+              <li><strong>Level 3:</strong> Standardized KPIs, regular performance reviews, systematic escalation processes</li>
+              <li><strong>Level 4-5:</strong> Real-time dashboards, predictive issue identification, proactive optimization</li>
+            </ul>
+            <h4>Key Activities:</h4>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+              <li>Performance monitoring and reporting systems</li>
+              <li>Operational KPI tracking and analysis</li>
+              <li>Issue escalation and resolution protocols</li>
+              <li>Process standardization and documentation</li>
+              <li>Best practice identification and dissemination</li>
+              <li>Operational efficiency improvement initiatives</li>
+              <li>On-site capability trainings</li>
+            </ul>
+          `,
+          "quality-assurance": `
+            <h2>Quality Assurance</h2>
+            <p>Independent verification and validation of service delivery standards across all operational functions. Establishes audit frameworks, quality standards, and continuous improvement mechanisms to ensure consistent excellence in property management delivery.</p>
+            <h4>Maturity Progression:</h4>
+            <ul style="margin: 15px 0; padding-left: 20px;">
+              <li><strong>Level 1-2:</strong> Periodic inspections, informal standards, reactive quality issues</li>
+              <li><strong>Level 3:</strong> Regular audit schedules, documented standards, systematic quality tracking</li>
+              <li><strong>Level 4-5:</strong> Continuous quality monitoring, predictive quality analytics, integrated improvement systems</li>
+            </ul>
+            <h4>Key Activities:</h4>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+              <li>Service delivery standards development</li>
+              <li>Regular property audits and inspections</li>
+              <li>Quality metrics tracking and reporting</li>
+              <li>Compliance verification and validation</li>
+              <li>Corrective action planning and monitoring</li>
+              <li>Quality improvement program management</li>
+            </ul>
+          `,
+          "client-governance": `
+            <h2>Client Governance</h2>
+            <p>Structured management of client relationships, service level agreements, and performance accountability for third-party managed properties. Ensures transparent communication, contractual compliance, and alignment between client expectations and operational delivery.</p>
+            <h4>Maturity Progression:</h4>
+            <ul style="margin: 15px 0; padding-left: 20px;">
+              <li><strong>Level 1-2:</strong> Ad-hoc client communication, informal reporting, reactive relationship management</li>
+              <li><strong>Level 3:</strong> Structured reporting cycles, SLA frameworks, regular client reviews</li>
+              <li><strong>Level 4-5:</strong> Integrated client portals, predictive performance analytics, strategic partnership development</li>
+            </ul>
+            <h4>Key Activities:</h4>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+              <li>Client reporting and communication protocols</li>
+              <li>Service level agreement management</li>
+              <li>Client satisfaction monitoring and improvement</li>
+              <li>Performance review and accountability systems</li>
+              <li>Client relationship development and retention</li>
+              <li>Contract compliance and renewal management</li>
+            </ul>
+          `,
+          "it-support": `
+            <h2>IT Support Function</h2>
+            <p>Enterprise technology services supporting operations across all maturity levels.</p>
+            <ul style="margin: 20px 0; padding-left: 20px;">
+              <li>Unified property management platforms</li>
+              <li>Data integration and analytics systems</li>
+              <li>Cybersecurity and compliance monitoring</li>
+              <li>Technical support and training</li>
+            </ul>
+          `,
+          "finance-support": `
+            <h2>Finance Support Function</h2>
+            <p>Centralized financial services and reporting across all portfolios, encompassing strategic financial planning, portfolio performance analytics, revenue optimization, and operational accounting support.</p>
+            <ul style="margin: 20px 0; padding-left: 20px;">
+              <li>Consolidated financial reporting and analysis</li>
+              <li>Cash management and treasury services</li>
+              <li>Budgeting and forecasting support</li>
+              <li>Financial controls and audit coordination</li>
+              <li>Portfolio strategy development and monitoring</li>
+              <li>KPI tracking and performance dashboards</li>
+              <li>Predictive analytics and strategic optimization</li>
+              <li>Investment return modeling and scenario planning</li>
+              <li>Revenue management and pricing strategy support</li>
+              <li>Dynamic pricing algorithm development</li>
+              <li>Collections optimization and predictive analytics</li>
+              <li>Lease economics and revenue forecasting</li>
+              <li>Rent roll analysis and variance reporting</li>
+            </ul>
+          `,
+          "people-support": `
+            <h2>People Support Function</h2>
+            <p>Human resources services supporting workforce development across all locations.</p>
+            <ul style="margin: 20px 0; padding-left: 20px;">
+              <li>Talent acquisition and onboarding</li>
+              <li>Skill Development (connects to career development/training; requires industry background + L&D methods expertise)</li>
+              <li>Performance management systems</li>
+              <li>Compensation and benefits administration</li>
+            </ul>
+          `,
+          "transformation-support": `
+            <h2>Change & Transformation Support</h2>
+            <p>Organizational change management and continuous improvement initiatives.</p>
+            <ul style="margin: 20px 0; padding-left: 20px;">
+              <li>Process standardization and optimization</li>
+              <li>Change management support</li>
+              <li>Best practice sharing and implementation</li>
+              <li>Innovation and transformation programs</li>
+            </ul>
+          `,
+          "legal-support": `
+            <h2>Legal Support Function</h2>
+            <p>Legal services and compliance support across all portfolio operations.</p>
+            <ul style="margin: 20px 0; padding-left: 20px;">
+              <li>Contract review and negotiation</li>
+              <li>Regulatory compliance monitoring</li>
+              <li>Risk assessment and mitigation</li>
+              <li>Litigation management and support</li>
+            </ul>
+          `,
+        };
+        return contents[type] || "<h2>Details</h2><p>Information coming soon...</p>";
+      }
+
+      function closeModal() {
+        document.getElementById("modal").style.display = "none";
+      }
+
+      // Close modal when clicking outside
+      window.onclick = function (event) {
+        const modal = document.getElementById("modal");
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
+      };
+    </script>
+  </body>
+</html>

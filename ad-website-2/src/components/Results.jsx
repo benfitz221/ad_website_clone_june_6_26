@@ -39,11 +39,11 @@ const CLIENT_DESC =
   'OneWall Communities is a multi-family operator based in Stamford, Connecticut, managing residential communities across the Northeast. During our engagement, they scaled from 20 properties toward a target portfolio of 25\u201330 communities \u2014 consolidating their technology stack, centralizing operations, and building the organizational framework to support that growth.'
 const CLIENT_CHALLENGE_HEADING = 'The Challenge'
 const CLIENT_CHALLENGE =
-  'Processes that worked at 10 properties were breaking at 20. Hiring was inconsistent across communities. Lease renewals ran on manual effort. Reporting was fragmented. There was no unified operating model to guide expansion \u2014 and every new acquisition compounded the problem.'
+  'Processes that worked at 8 properties were no longer suitable. Hiring was inconsistent across communities. Lease renewals ran on manual effort. Reporting was fragmented \u2014 and every new acquisition was at risk of compounding the problem.'
 
 const ENGAGEMENT_DETAILS = [
   { label: 'Industry', value: 'Multi-Family Property Mgmt' },
-  { label: 'Portfolio', value: '20 \u2192 25\u201330 Communities' },
+  { label: 'Portfolio', value: '8 \u2192 18+ Communities' },
   { label: 'Duration', value: '12-Month Retainer' },
   { label: 'Scope', value: 'HR, Operations, Technology' },
   { label: 'Method', value: 'Hub & Spoke Centralization' },
@@ -392,7 +392,7 @@ export default function Results() {
                   <div className="pt-2 border-t border-sage/10 mt-2">
                     <div className="flex items-center gap-1.5">
                       <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      <span className="text-sage/70 font-mono text-xs">Engagement completed</span>
+                      <span className="text-sage/70 font-mono text-xs">Engagement ongoing</span>
                     </div>
                   </div>
                 </div>

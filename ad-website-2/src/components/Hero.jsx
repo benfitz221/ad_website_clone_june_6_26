@@ -56,11 +56,10 @@ export default function Hero() {
         </div>
 
         {/* Portfolio scale strip */}
-        <div className="anim mt-12 grid grid-cols-3 gap-px border border-cream/10 rounded overflow-hidden">
+        <div className="anim mt-12 grid grid-cols-2 gap-px border border-cream/10 rounded overflow-hidden max-w-xs">
           {[
             { v: '3K–15K', l: 'Units We Serve' },
             { v: 'B/C', l: 'Class Focus' },
-            { v: '2 yrs', l: 'Embedded with OneWall' },
           ].map((s) => (
             <div key={s.l} className="bg-moss/40 px-4 py-3 text-center">
               <div className="text-clay font-mono font-bold text-base">{s.v}</div>

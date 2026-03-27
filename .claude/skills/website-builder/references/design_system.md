@@ -116,6 +116,51 @@ Regardless of Archetype or Typology, apply these global rules:
 
 ---
 
+## Motion Design System
+
+All animations serve the conversion path. If an animation does not move attention toward the CTA, cut it.
+
+### Timing
+
+| Context | Duration |
+|---|---|
+| Micro-interactions (hover, press) | 150–200ms |
+| Entrance animations | 400–800ms |
+| Scroll-triggered reveals | 600–1000ms |
+| Page route transitions | 200ms exit, 300ms enter |
+
+### Easing
+
+| Context | Curve |
+|---|---|
+| GSAP entrances | `power3.out` |
+| Motion button springs | `{ stiffness: 300, damping: 30 }` |
+| Motion card springs | `{ stiffness: 200, damping: 25 }` |
+| CSS transitions (reveals) | `ease-out` |
+| CSS transitions (hovers) | `ease-in-out` |
+
+### Stagger
+0.08–0.15s between sibling elements (cards, list items, stat blocks). Never exceed 0.2s — the group should finish within 1s total.
+
+### Scroll-Driven Patterns
+- **Simple reveal:** `tailwindcss-motion` utility class. No JS.
+- **Staggered group:** GSAP `.from()` with `stagger` + `scrollTrigger: { trigger, start: 'top 85%' }`.
+- **Pinned narrative:** GSAP ScrollTrigger `pin: true`, `scrub: true`. Use for Protocol stacking cards and video scrub sections.
+- **Parallax background:** GSAP `yPercent: 20` with `scrub: true`. Subtle depth only — never more than 20% travel.
+
+### Accessibility
+- Gate all continuous/looping animations behind `@media (prefers-reduced-motion: no-preference)`.
+- One-shot entrance animations (fire once on scroll) may run unconditionally.
+- Typing animations must have a stable fallback — display the first message as static text if motion is reduced.
+
+### Performance Budget
+Total animation JS payload under 55KB (Motion 18KB + GSAP 25KB + Lenis 3KB + type-animation 4KB + countup 6KB). Lottie is lazy-loaded below the fold and excluded from this budget.
+
+### CTA Protection Rule
+Every animation decision is tested against one question: does this move attention toward or away from the discovery call? Animated backgrounds, particle effects, and aggressive parallax pull focus. Purposeful entrance staggers, subtle hover feedback, and scroll-driven narrative pacing push focus toward the CTA. If an animation does not serve the conversion path, cut it.
+
+---
+
 ## Execution & Quality Assurance Sequence
 
 1. **Analyze & Map:** Intersect the chosen **Aesthetic Archetype** with the chosen **Structural Typology**. (e.g., Synthetic Neon + Bento Grid Terminal = a brutalist, cyberpunk grid interface).

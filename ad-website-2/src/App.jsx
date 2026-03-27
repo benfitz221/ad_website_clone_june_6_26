@@ -8,7 +8,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import CredibilityBand from './components/CredibilityBand'
-import ClientTestimonial from './components/ClientTestimonial'
 import Headwinds from './components/Headwinds'
 import Solution from './components/Solution'
 import Philosophy from './components/Philosophy'
@@ -103,7 +102,6 @@ function HomePage() {
     <>
       <Hero />
       <CredibilityBand />
-      <ClientTestimonial />
       <Headwinds />
       <Solution />
       <Philosophy />

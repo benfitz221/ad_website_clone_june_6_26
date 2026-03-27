@@ -97,7 +97,7 @@ export default function AdaptiveRegimen() {
 
         <button
           className="mt-4 w-full py-2 rounded-lg text-xs font-mono font-semibold transition-opacity hover:opacity-80"
-          style={{ backgroundColor: ACCENT_COLOR, color: '#070707' }}
+          style={{ backgroundColor: ACCENT_COLOR, color: '#142F40' }}
         >
           {BUTTON_TEXT}
         </button>

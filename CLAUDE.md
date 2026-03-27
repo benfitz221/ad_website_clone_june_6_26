@@ -1,3 +1,15 @@
+## Agent Done — Design & Build Principles
+
+- REQ-001: Modern, tech-focused aesthetic for non-technical budget holders in US multi-family
+- REQ-002: Visual design conveys "complex made simple" — through layout and design, not copy
+- REQ-003: Generous white space; no page should feel cluttered
+- REQ-004: Subtle animations and motion; never overwhelming
+- REQ-005: All pages match homepage styling (typography, colors, component patterns)
+- REQ-006: Primary CTA = discovery call with free process audit; feature proprietary tools
+- REQ-007: About page must include 3 headshot placeholder slots
+
+---
+
 # Claude Code Skills — Condensed Spec
 
 Skills extend Claude's capabilities via `SKILL.md` files. Claude loads them automatically when relevant, or users invoke them with `/skill-name`.

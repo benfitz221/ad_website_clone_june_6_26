@@ -1,6 +1,7 @@
 ---
 name: thumbnail-generator
 description: Generate YouTube thumbnails by face-swapping onto existing templates, then modify colors, text, and styling. Use when creating thumbnails, recreating thumbnails from other creators, or designing YouTube thumbnails.
+disable-model-invocation: true
 allowed-tools: Read, Grep, Glob, Bash
 ---
 

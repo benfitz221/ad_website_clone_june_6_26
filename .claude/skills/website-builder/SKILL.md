@@ -51,6 +51,37 @@ website-template/
 - Lucide React icons
 - PostCSS + Autoprefixer
 
+### Animation Stack
+
+Use the lightest tool that handles the job. A Tailwind class for a fade-in. GSAP for a pinned timeline. Motion for spring-based interactions.
+
+| Library | Package | Size | Responsibility |
+|---|---|---|---|
+| GSAP + ScrollTrigger | `gsap`, `@gsap/react` | ~25KB | Complex timelines, pinned sections, parallax, scrub-to-scroll |
+| Motion | `motion` | ~18KB | Component entrance/exit, route transitions, spring physics, gestures |
+| Lenis | `lenis` | 3KB | Global smooth scroll interpolation — initialized once in App.jsx |
+| tailwindcss-motion | `tailwindcss-motion` | 0KB runtime | CSS-only fade/slide/scale on scroll via utility classes |
+| tailwindcss-intersect | `tailwindcss-intersect` | 0KB runtime | Scroll-triggered variants for tailwindcss-motion classes |
+| react-type-animation | `react-type-animation` | ~4KB | Hero subtitle typing rotation |
+| react-countup | `react-countup` | ~6KB | Animated number counters triggered on scroll-into-view |
+| dotlottie-react | `@lottiefiles/dotlottie-react` | ~50KB | Vector icon animations — lazy-load below the fold only |
+
+**Total JS budget:** Under 55KB for animation runtime (Motion + GSAP + Lenis + type-animation + countup). Lottie is lazy-loaded and excluded from initial bundle.
+
+**DO NOT add animation dependencies beyond this approved stack.**
+
+#### When to use what
+
+- **Simple reveal on scroll** (heading, text block, card) → `tailwindcss-motion` class: `intersect:motion-preset-fade-lg`
+- **Staggered group entrance** → GSAP `.from()` with `stagger` and ScrollTrigger
+- **Pinned/scrubbed section** (stacking cards, video scrub) → GSAP ScrollTrigger with `pin: true`
+- **Parallax background** → GSAP ScrollTrigger with `scrub: true`
+- **Button hover/press** → Motion `whileHover` / `whileTap` with spring config
+- **Route transitions** → Motion `AnimatePresence` wrapping route outlet
+- **Cycling hero text** → `react-type-animation`
+- **Stat/metric display** → `react-countup` with Intersection Observer trigger
+- **Animated service icons** → dotlottie-react, lazy-loaded, tinted to palette
+
 ### Design System (in `tailwind.config.js`)
 ```
 colors:
@@ -98,6 +129,14 @@ Modify these files — DO NOT restructure or rewrite from scratch:
 
 5. **Unsplash images** — Replace background image URLs in Hero.jsx and Philosophy.jsx with images that match the brand. Use `https://images.unsplash.com/photo-ID?w=2000&q=80` format.
 
+6. **Animation foundation** — For each page:
+   - Lenis is already global in App.jsx — no per-page setup needed.
+   - Add `intersect:motion-preset-fade-lg` classes to section headings, text blocks, and cards for scroll reveals.
+   - Wire GSAP ScrollTrigger for any pinned or scrub-based sections.
+   - Add `react-countup` with Intersection Observer to any visible stat or metric.
+   - Wrap route content in Motion `motion.div` with the standard page transition props.
+   - Test every animation against the CTA protection rule: does it move attention toward or away from the conversion goal? If it competes, cut it.
+
 ### Step 3: Build & Deploy
 ```bash
 npm run build
@@ -119,7 +158,9 @@ Note: The interactive `sites:create` command hangs in non-TTY. Always use `--cre
 - **DO NOT switch to Tailwind v4.** The template uses v3 with `tailwind.config.js`. Keep it.
 - **DO NOT remove the interactive micro-UIs** (DiagnosticShuffler, TelemetryTypewriter, AdaptiveRegimen). They are the visual differentiator. Adapt their content to the brand.
 - **DO NOT change the structural layout** (rounded section transitions, stacking scroll cards, parallax philosophy section). These are what make it look good.
-- **DO NOT add new npm dependencies** unless absolutely necessary.
+- **DO NOT add animation dependencies beyond the approved stack** (see Animation Stack table above).
+- **DO NOT use GSAP for simple fade-in reveals** — use tailwindcss-motion utility classes instead.
+- **DO NOT load Lottie assets above the fold** — lazy-load only, never affect LCP.
 
 ## Customization Cheat Sheet
 
